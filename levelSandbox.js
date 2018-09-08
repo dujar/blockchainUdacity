@@ -11,7 +11,7 @@ module.exports = {addLevelDBData,getLevelDBData}
 function addLevelDBData(key,value){
   return new Promise((resolve,reject) => {
     db.put(key, value, function(err) {
-     resolve("ok")
+     resolve(key)
      if(err){
        throw "not found, or error"
      }

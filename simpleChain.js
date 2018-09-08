@@ -45,30 +45,35 @@ class Blockchain {
   // Add new block
   addBlock(newBlock) {
     // Block height
-    return this.getBlockHeight().then((height) => {
-      console.log("HEIGHT:", height)
-      newBlock.height = 1 + Number(height)
-      addLevelDBData("height", newBlock.height)
-      console.log("new height", newBlock.height)
-      newBlock.time = new Date().getTime().toString().slice(0, -3);
-      if (height > 0) {
-        this.getBlock(height).then(block => {
-          console.log("block:", block)
-          newBlock.previousBlockHash = JSON.parse(block).hash;
+    return new Promise((resolve,reject) => {
+
+       this.getBlockHeight().then((height) => {
+        console.log("HEIGHT:", height)
+        newBlock.height = 1 + Number(height)
+        addLevelDBData("height", newBlock.height)
+        console.log("new height", newBlock.height)
+        newBlock.time = new Date().getTime().toString().slice(0, -3);
+        if (height > 0) {
+          this.getBlock(height).then(block => {
+            console.log("block:", block)
+            newBlock.previousBlockHash = JSON.parse(block).hash;
+            newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
+            addLevelDBData(newBlock.height, JSON.stringify(newBlock).toString())
+            .then(result => resolve(result))
+
+          })
+        } else {
           newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
           addLevelDBData(newBlock.height, JSON.stringify(newBlock).toString())
+          .then(result => resolve(result))
+        }
+      })
 
-        })
-      } else {
-        newBlock.hash = SHA256(JSON.stringify(newBlock)).toString();
-        addLevelDBData(newBlock.height, JSON.stringify(newBlock).toString())
-
-      }
     })
-  }
+    }
 
-  // Get block height
-  getBlockHeight() {
+    // Get block height
+    getBlockHeight() {
     // return this.chain.length - 1;
     return getLevelDBData("height")
       .catch((err) => console.log("Error fetching height", err))
