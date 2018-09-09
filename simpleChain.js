@@ -124,7 +124,7 @@ class Blockchain {
     return new Promise((resolve, reject) => {
 
       this.getBlockHeight().then(height => {
-        for (var i = 0; i < height - 1; i++) {
+        for (let i = 0; i < height - 1; i++) {
           // validate block
           this.validateBlock(i).then(result => {
             if (!result) erroLog.push(i);
