@@ -23,31 +23,42 @@ app.get('/block/:id', (req, res) => {
     id
   } = req.params
   console.log(id)
-  myBlockChain.getBlock(id)
-    .then(result => {
+  myBlockChain.getBlockHeight().then(val => {
 
-      res.send(result)
+    if (id >= 0) {
+      if (Number(val) >= id) {
+        myBlockChain.getBlock(id)
+          .then(result => {
 
-    })
+            res.send(result)
+
+          })
+      } else {
+        res.send(`block height is not yet available, blockHeight: ${val} `)
+      }
+    }
+  })
+
 })
+
 app.post('/block', (req, res) => {
   console.log(req.body)
   let {
     body
   } = req.body
-  if(body){
-  let newblock = new Block("" + body)
-  myBlockChain.addBlock(newblock).then(result => {
-    myBlockChain.getBlock(Number(result))
-    .then(block => {
-      res.send(block)
+  if (body) {
+    let newblock = new Block("" + body)
+    myBlockChain.addBlock(newblock).then(result => {
+      myBlockChain.getBlock(Number(result))
+        .then(block => {
+          res.send(block)
+        })
     })
-  })
   } else {
     res.send("please add a content to the new block in a body field!")
   }
 })
-app.get('/*',(req,res) => {
+app.get('/*', (req, res) => {
   res.send("not a url u could use...")
 })
 

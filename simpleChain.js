@@ -33,13 +33,17 @@ class Block {
 
 class Blockchain {
   constructor() {
+    try {
     getLevelDBData("height")
       .then((val) => console.log("height is:", val))
       .catch(() => {
-        addLevelDBData("height", 0).then(() => {
+        addLevelDBData("height", -1).then(() => {
           this.addBlock(new Block("First block in the chain - Genesis block"));
         })
       })
+    } catch (err) {
+      console.log("genesis block already!")
+    }
   }
 
   // Add new block
