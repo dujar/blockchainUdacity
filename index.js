@@ -61,8 +61,8 @@ app.post('/block', (req, res) => {
 app.get('/*', (req, res) => {
   res.send("not a url u could use...")
 })
-
-app.listen(8000, () => console.log('Example app listening on port 3000!'))
+let port = 8000
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 // const myBlockChain = new Blockchain
 
 // function theLoop (i) {
