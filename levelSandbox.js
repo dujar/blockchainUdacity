@@ -2,39 +2,57 @@
 |  Learn more: level: https://github.com/Level/level     |
 |  =============================================================*/
 
-const level = require('level');
-const chainDB = './chaindata';
+const level = require("level");
+const chainDB = "./chaindata";
 const db = level(chainDB);
 
-module.exports = {addLevelDBData,getLevelDBData}
+module.exports = { addLevelDBData, getLevelDBData, findLevelDBData };
 // Add data to levelDB with key/value pair
-function addLevelDBData(key,value){
-  return new Promise((resolve,reject) => {
+function addLevelDBData(key, value) {
+  return new Promise((resolve, reject) => {
     db.put(key, value, function(err) {
-     resolve(key)
-     if(err){
-       throw "not found, or error"
-     }
-
-   })
-
-  })
+      resolve(key);
+      if (err) {
+        throw "not found, or error";
+      }
+    });
+  });
 }
 
 // Get data from levelDB with key
-function getLevelDBData(key){
-  return new Promise((resolve,reject) => {
+function getLevelDBData(key) {
+  return new Promise((resolve, reject) => {
     db.get(key, function(err, value) {
-     if (err) {
-       console.log('Not found!', err);
-       reject(err)
-     }
+      if (err) {
+        console.log("Not found!", err);
+        reject(err);
+      }
       resolve(value);
-
-   })
-  })
+    });
+  });
 }
 
+function findLevelDBData(cb) {
+  return new Promise((resolve, reject) => {
+    let compiledData = [];
+    db.createReadStream()
+      .on("data", data => {
+        console.log(data);
+        data = JSON.parse(data.value);
+        let result = cb(data);
+        if (result) {
+          compiledData.push(result);
+        }
+      })
+      .on("error", function(err) {
+        return console.log("Unable to read data stream!", err);
+      })
+      .on("close", function() {})
+      .on("end", function() {
+        resolve(compiledData);
+      });
+  });
+}
 // // Add data to levelDB with value
 // function addDataToLevelDB(value) {
 //     let i = 0;
@@ -58,7 +76,6 @@ function getLevelDBData(key){
 |    Bitcoin blockchain adds 8640 blocks per day                               |
 |     ( new block every 10 minutes )                                           |
 |  ===========================================================================*/
-
 
 // (function theLoop (i) {
 //   setTimeout(function () {
