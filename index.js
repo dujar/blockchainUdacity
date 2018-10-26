@@ -46,8 +46,8 @@ app.get("/stars/:param", (req, res) => {
         return name === "hash" && data.hash && param.split(":")[1] === data.hash
           ? data
           : name === "address" &&
-            data.body &&
-            param.split(":")[1] === data.body.address
+          data.body &&
+          param.split(":")[1] === data.body.address
             ? data
             : false;
       })
@@ -75,10 +75,6 @@ app.post("/block", (req, res) => {
   }
 });
 app.post("/requestValidation", (req, res) => {
-  const hash = bitcoin.crypto.sha256(
-    Buffer.from("correct horse battery staple")
-  );
-  const keyPair = bitcoin.ECPair.fromPrivateKey(hash);
   console.log(req.body);
   let { address } = req.body;
   if (address) {
@@ -92,14 +88,7 @@ app.post("/requestValidation", (req, res) => {
     };
     messageKeeper = response.message;
 
-    let signature = bitcoinMessage.sign(
-      JSON.stringify(response.message),
-      keyPair.privateKey,
-      keyPair.compressed
-    );
-    console.log("encryption", signature.toString("base64"));
-    signatureKeeper = signature;
-    response.message = signature.toString("base64");
+    console.log(bitcoinMessage.sign(messageKeeper, Buffer.from("3f87320d282b4fac7450fe7d35d8e8bc2839c4e48b7ed2d5352490fa4819d61a", "hex"), false).toString('base64'));
     res.send(response);
   } else {
     res.send("please provide a body message");
@@ -114,7 +103,7 @@ app.post("/message-signature/validate", (req, res) => {
     let messageVerified = bitcoinMessage.verify(
       messageKeeper,
       address,
-      signatureKeeper || signature
+      signature
     );
 
     let time = new Date().getTime();
