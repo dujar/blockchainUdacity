@@ -1,17 +1,20 @@
 # Blockchain website - RESTFUL API
 
+## Overview
+
+Website implementing a blockchain from scratch for Udacity blockchain .
+Uses nodejs with express as the backend framework.
+The bitcoin library is used to verify the encrypted message.
+
 ## Prerequisites
 
 needs nodejs
-
-express framework
 
 ## install & run
 
 clone this repo
 
 commands:
-
 `
 npm install
 `
@@ -43,4 +46,9 @@ npm start
 - GET ('/stars/adress:$adress) --> $adress is the wallet public adress like 13nW7vLDQeeRJxbknU6NBCgwP9uDXX4fC8
 - GET('/stars/hash:$hash) --> $hash is the block hash you are looking for
 
-any comments please share!
+## License
+
+This project is licensed under MIT license
+##Authors
+
+Fabricio Dujardin

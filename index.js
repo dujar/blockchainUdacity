@@ -8,7 +8,8 @@ const bitcoinMessage = require("bitcoinjs-message");
 
 const app = express();
 let messageKeeper;
-let signatureKeeper;
+let verified;
+let addressMatch;
 let validTime = 3000;
 // parse application/x-www-form-urlencoded
 app.use(
@@ -62,8 +63,9 @@ app.get("/stars/:param", (req, res) => {
 
 app.post("/block", (req, res) => {
   console.log(req.body);
+
   let { address, star } = req.body;
-  if (address && star) {
+  if (address === addressMatch && verified && star) {
     let newblock = new Block(address, star);
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
@@ -71,7 +73,7 @@ app.post("/block", (req, res) => {
       });
     });
   } else {
-    res.send("please add a content to the new block in a body field!");
+    res.send("request a validation with your address to /requestValidation url endpoint and then sign the message response given, read the README");
   }
 });
 app.post("/requestValidation", (req, res) => {
@@ -79,7 +81,7 @@ app.post("/requestValidation", (req, res) => {
   let { address } = req.body;
   if (address) {
     let time = new Date().getTime();
-
+    addressMatch = address;
     let response = {
       address,
       requestTimeStamp: time,
@@ -88,7 +90,7 @@ app.post("/requestValidation", (req, res) => {
     };
     messageKeeper = response.message;
 
-    console.log(bitcoinMessage.sign(messageKeeper, Buffer.from("3f87320d282b4fac7450fe7d35d8e8bc2839c4e48b7ed2d5352490fa4819d61a", "hex"), false).toString('base64'));
+    console.log(bitcoinMessage.sign(messageKeeper, Buffer.from("3f87320d282b4fac7450fe7d35d8e8bc2839c4e48b7ed2d5352490fa4819d61a", "hex"), false).toString("base64"));
     res.send(response);
   } else {
     res.send("please provide a body message");
@@ -105,6 +107,7 @@ app.post("/message-signature/validate", (req, res) => {
       address,
       signature
     );
+    verified = messageVerified
 
     let time = new Date().getTime();
     let timeKept = validTime + time - Number(messageKeeper.split(":")[1]);
