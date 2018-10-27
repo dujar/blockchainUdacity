@@ -2,6 +2,7 @@ const { Block, Blockchain } = require("./simpleChain");
 const myBlockChain = new Blockchain();
 const express = require("express");
 const bodyParser = require("body-parser");
+const validator = require("validator");
 // Setup libraries
 const bitcoin = require("bitcoinjs-lib");
 const bitcoinMessage = require("bitcoinjs-message");
@@ -10,7 +11,7 @@ const app = express();
 let messageKeeper;
 let verified;
 let addressMatch;
-let validTime = 3000;
+let validTime = 300000;//5 min in milliseconds
 // parse application/x-www-form-urlencoded
 app.use(
   bodyParser.urlencoded({
@@ -20,7 +21,6 @@ app.use(
 
 // parse application/json
 app.use(bodyParser.json());
-
 app.get("/", (req, res) => res.send("Welcome to my Blockchain"));
 app.get("/block/:id", (req, res) => {
   let { id } = req.params;
@@ -54,22 +54,45 @@ app.get("/stars/:param", (req, res) => {
       })
       .then(response => {
         console.log("response", response);
-        res.send(response);
+        let blockResults = response.map(blocks => {
+          let block = JSON.parse(JSON.stringify(blocks));
+          block.body.star.storyDecoded = Buffer.from(block.body.star.story, "hex").toString();
+          return block;
+        });
+        res.send(blockResults);
       });
   } else {
     res.send("wrong address somehow!");
   }
-});
+})
+;
 
 app.post("/block", (req, res) => {
   console.log(req.body);
 
   let { address, star } = req.body;
+  if (star) {
+    let story = star.story;
+    let dec = star.dec;
+    let ra = star.ra;
+    if (!story && !dec && !ra) {
+      res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
+    }
+    let valid = validator.isAscii(star);
+    if (!valid) {
+      res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
+    }
+    let boundary = story.split(" ").length <= 250 && story.split(" ") > 0;
+    if (!boundary) {
+      res.json({ message: " invalid story, needs to be below 250 words" });
+    }
+  }
   if (address === addressMatch && verified && star) {
     let newblock = new Block(address, star);
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
-        res.send(block);
+        verified = false;
+        res.send(JSON.stringify(block));
       });
     });
   } else {
@@ -107,15 +130,18 @@ app.post("/message-signature/validate", (req, res) => {
       address,
       signature
     );
-    verified = messageVerified
+    verified = messageVerified;
 
     let time = new Date().getTime();
     let timeKept = validTime + time - Number(messageKeeper.split(":")[1]);
+    if (timeKept < 0) {
+      res.send(`you had 5 minutes to give sign the message, you overtimed it by${timeKept} milliseconds, kindly send another request to /resquestValidation`);
+    }
     let response = {
       registerStar: messageVerified,
       status: {
         address,
-        requestTimeStamp: messageKeeper.split(":")[2],
+        requestTimeStamp: time,
         message: messageKeeper,
         validationWindow: timeKept,
         messageSignature: messageVerified ? "valid" : "failed"
@@ -123,36 +149,12 @@ app.post("/message-signature/validate", (req, res) => {
     };
     res.send(response);
   } else {
-    res.send("time out");
+    res.send({message:"time out"});
   }
 });
 app.get("/*", (req, res) => {
-  res.send("not a url u could use...");
+  res.json("not a url u could use...");
 });
 let port = 8000;
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-// const myBlockChain = new Blockchain
 
-// function theLoop (i) {
-//   setTimeout(function () {
-//       let blockTest = new Block("Test Block - " + (i + 1));
-//       myBlockChain.addBlock(blockTest).then((result) => {
-//           console.log(result);
-//           i++;
-//           if (i < 10) theLoop(i);
-//       });
-//   }, 1000);
-// }
-
-// theLoop(0)
-
-// setTimeout(() => {
-
-//   myBlockChain.validateBlock(1)
-//   .then(result => console.log("validated?",result))
-//   .catch(err => console.log(err))
-
-//   myBlockChain.validateChain()
-//   .then(result => console.log(result))
-//   .catch(err => console.log(err))
-// },10000)
