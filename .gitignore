@@ -3,3 +3,6 @@ privatekeys.js
 .idea
 /chaindata
 buffer.js
+truffle.js
+contracts
+

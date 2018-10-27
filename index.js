@@ -79,11 +79,11 @@ app.post("/block", (req, res) => {
     if (!story && !dec && !ra) {
       res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
     }
-    let valid = validator.isAscii(JSON.stringify(star));
+    let valid = validator.isAscii(story);
     if (!valid) {
       res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
     }
-    let boundary = story.split(" ").length <= 250 && story.split(" ").length > 0;
+    let boundary = story.split(" ").length <= 250 && story.split(" ").length > 0 && Buffer.byteLength(story) <= 500;
     if (!boundary) {
       res.json({ message: " invalid story, needs to be below 250 words" });
     }
@@ -157,7 +157,7 @@ app.post("/message-signature/validate", (req, res) => {
     };
     res.send(response);
   } else {
-    res.send({ message: "time out" });
+    res.send({ message: "either it is a time out or need to request another message at the following url /requestValidation" });
   }
 });
 app.get("/*", (req, res) => {
