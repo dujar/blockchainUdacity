@@ -9,6 +9,7 @@ const bitcoinMessage = require("bitcoinjs-message");
 
 const app = express();
 let messageKeeper;
+let timeKeeper;
 let verified;
 let addressMatch;
 let validTime = 300000;//5 min in milliseconds
@@ -78,11 +79,11 @@ app.post("/block", (req, res) => {
     if (!story && !dec && !ra) {
       res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
     }
-    let valid = validator.isAscii(star);
+    let valid = validator.isAscii(JSON.stringify(star));
     if (!valid) {
       res.json({ message: "invalid star, it is supposed to be ascii and the story needs to be 250 words maximum length" });
     }
-    let boundary = story.split(" ").length <= 250 && story.split(" ") > 0;
+    let boundary = story.split(" ").length <= 250 && story.split(" ").length > 0;
     if (!boundary) {
       res.json({ message: " invalid story, needs to be below 250 words" });
     }
@@ -92,7 +93,7 @@ app.post("/block", (req, res) => {
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
         verified = false;
-        res.send(JSON.stringify(block));
+        res.send(block);
       });
     });
   } else {
@@ -103,14 +104,21 @@ app.post("/requestValidation", (req, res) => {
   console.log(req.body);
   let { address } = req.body;
   if (address) {
+
+
     let time = new Date().getTime();
-    addressMatch = address;
+    let isSameAddress = address === addressMatch;
+    if (!isSameAddress) {
+      addressMatch = address;
+      timeKeeper = time;
+    }
     let response = {
       address,
-      requestTimeStamp: time,
-      message: `${address}:${time}:starRegistry`,
-      validationWindow: validTime
+      requestTimeStamp: isSameAddress ? timeKeeper : time,
+      message: `${address}:${isSameAddress ? timeKeeper : time}:starRegistry`,
+      validationWindow: isSameAddress ? (validTime - (time - timeKeeper)) : validTime
     };
+    console.log({ time, validTime, timeKeeper });
     messageKeeper = response.message;
 
     console.log(bitcoinMessage.sign(messageKeeper, Buffer.from("3f87320d282b4fac7450fe7d35d8e8bc2839c4e48b7ed2d5352490fa4819d61a", "hex"), false).toString("base64"));
@@ -133,7 +141,7 @@ app.post("/message-signature/validate", (req, res) => {
     verified = messageVerified;
 
     let time = new Date().getTime();
-    let timeKept = validTime + time - Number(messageKeeper.split(":")[1]);
+    let timeKept = validTime - (time - Number((messageKeeper.split(":")[1])));
     if (timeKept < 0) {
       res.send(`you had 5 minutes to give sign the message, you overtimed it by${timeKept} milliseconds, kindly send another request to /resquestValidation`);
     }
@@ -149,7 +157,7 @@ app.post("/message-signature/validate", (req, res) => {
     };
     res.send(response);
   } else {
-    res.send({message:"time out"});
+    res.send({ message: "time out" });
   }
 });
 app.get("/*", (req, res) => {
