@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b64e570c-8735-4930-9fdf-0f898fc6c941" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaindata/CURRENT" beforeDir="false" afterPath="$PROJECT_DIR$/chaindata/CURRENT" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chaindata/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/chaindata/LOG" afterDir="false" />
@@ -22,12 +21,13 @@
     <session id="-1629995812">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="4" />
+          <entry key="project.closed" value="5" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.5" value="1" />
-          <entry key="project.opened" value="5" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="6" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -50,7 +50,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="52" />
-          <entry key="js" value="4309" />
+          <entry key="js" value="4583" />
           <entry key="json" value="4" />
           <entry key="md" value="764" />
         </counts>
@@ -58,7 +58,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="4309" />
+          <entry key="JavaScript" value="4583" />
           <entry key="Markdown" value="764" />
           <entry key="PLAIN_TEXT" value="52" />
         </counts>
@@ -72,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="159" column="123" selection-start-line="159" selection-start-column="123" selection-end-line="159" selection-end-column="123" />
+            <state relative-caret-position="352">
+              <caret line="98" column="35" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -81,7 +81,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/buffer.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
+            <state relative-caret-position="378">
               <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
             </state>
           </provider>
@@ -108,6 +108,7 @@
       <find>hash</find>
       <find>encode</find>
       <find>console.log</find>
+      <find>block/</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -143,7 +144,8 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
+    <option name="x" value="-510" />
+    <option name="y" value="-1057" />
     <option name="width" value="1440" />
     <option name="height" value="797" />
   </component>
@@ -198,15 +200,16 @@
       <workItem from="1540597533462" duration="12114000" />
       <workItem from="1540629194168" duration="43000" />
       <workItem from="1540636858248" duration="794000" />
-      <workItem from="1540649232753" duration="711000" />
+      <workItem from="1540649232753" duration="1082000" />
+      <workItem from="1540691661144" duration="960000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21162000" />
+    <option name="totallyTimeSpent" value="22493000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="797" extended-state="0" />
+    <frame x="-510" y="-1057" width="1440" height="797" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
@@ -223,7 +226,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.44412193" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.19738752" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -287,24 +290,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/truffle.js">
+    <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
+        <state relative-caret-position="352">
+          <caret line="98" column="35" selection-start-line="98" selection-start-column="35" selection-end-line="98" selection-end-column="35" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/buffer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
+        <state relative-caret-position="378">
           <caret line="18" column="51" selection-start-line="18" selection-start-column="51" selection-end-line="18" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.js">
+    <entry file="file://$PROJECT_DIR$/truffle.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="159" column="123" selection-start-line="159" selection-start-column="123" selection-end-line="159" selection-end-column="123" />
+        <state relative-caret-position="210">
+          <caret line="10" column="2" selection-start-line="10" selection-start-column="2" selection-end-line="10" selection-end-column="2" />
         </state>
       </provider>
     </entry>

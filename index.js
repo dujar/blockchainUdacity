@@ -29,7 +29,10 @@ app.get("/block/:id", (req, res) => {
   myBlockChain.getBlockHeight().then(val => {
     if (id >= 0) {
       if (Number(val) >= id) {
-        myBlockChain.getBlock(id).then(result => {
+        myBlockChain.getBlock(id).then(block => {
+          let result = JSON.parse(block);
+          result.body.star.storyDecoded = Buffer.from(result.body.star.story, "hex").toString();
+          console.log(result);
           res.send(result);
         });
       } else {
@@ -55,8 +58,8 @@ app.get("/stars/:param", (req, res) => {
       })
       .then(response => {
         console.log("response", response);
-        let blockResults = response.map(blocks => {
-          let block = JSON.parse(JSON.stringify(blocks));
+        let blockResults = response.map(blockEl => {
+          let block = JSON.parse(JSON.stringify(blockEl));
           block.body.star.storyDecoded = Buffer.from(block.body.star.story, "hex").toString();
           return block;
         });
@@ -93,7 +96,7 @@ app.post("/block", (req, res) => {
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
         verified = false;
-        res.send(block);
+        res.send(JSON.parse(block));
       });
     });
   } else {
