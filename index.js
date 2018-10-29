@@ -96,6 +96,9 @@ app.post("/block", (req, res) => {
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
         verified = false;
+        addressMatch = ""
+        timeKeeper = 0
+        messageKeeper = ""
         res.send(JSON.parse(block));
       });
     });
