@@ -96,9 +96,9 @@ app.post("/block", (req, res) => {
     myBlockChain.addBlock(newblock).then(result => {
       myBlockChain.getBlock(Number(result)).then(block => {
         verified = false;
-        addressMatch = ""
-        timeKeeper = 0
-        messageKeeper = ""
+        addressMatch = "";
+        timeKeeper = 0;
+        messageKeeper = "";
         res.send(JSON.parse(block));
       });
     });
@@ -114,15 +114,21 @@ app.post("/requestValidation", (req, res) => {
 
     let time = new Date().getTime();
     let isSameAddress = address === addressMatch;
+    let validationTime = time;
     if (!isSameAddress) {
       addressMatch = address;
       timeKeeper = time;
+      validationTime = time;
+
+    }
+    if (isSameAdress && (validTime - time + timeKeeper < 0)) {
+      validationTime = time;
     }
     let response = {
       address,
       requestTimeStamp: isSameAddress ? timeKeeper : time,
       message: `${address}:${isSameAddress ? timeKeeper : time}:starRegistry`,
-      validationWindow: isSameAddress ? (validTime - (time - timeKeeper)) : validTime
+      validationWindow: validationTime
     };
     console.log({ time, validTime, timeKeeper });
     messageKeeper = response.message;
