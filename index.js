@@ -9,10 +9,10 @@ const bitcoinMessage = require("bitcoinjs-message");
 
 const app = express();
 let messageKeeper;
-let timeKeeper;
+let timeKeeper=0
 let verified;
 let addressMatch;
-let validTime = 300000;//5 min in milliseconds
+let validTime = 30000;//5 min in milliseconds
 // parse application/x-www-form-urlencoded
 app.use(
   bodyParser.urlencoded({
@@ -110,25 +110,25 @@ app.post("/requestValidation", (req, res) => {
   console.log(req.body);
   let { address } = req.body;
   if (address) {
-
-
     let time = new Date().getTime();
     let isSameAddress = address === addressMatch;
-    let validationTime = time;
+    let countDown = validTime;
     if (!isSameAddress) {
       addressMatch = address;
       timeKeeper = time;
-      validationTime = time;
-
     }
-    if (isSameAdress && (validTime - time + timeKeeper < 0)) {
-      validationTime = time;
+    let counter=countDown-(time-timeKeeper)
+    if (isSameAddress && (counter > 0)) {
+      countDown =  counter
+    }
+    if(counter <0){
+      countDown = time
     }
     let response = {
       address,
       requestTimeStamp: isSameAddress ? timeKeeper : time,
       message: `${address}:${isSameAddress ? timeKeeper : time}:starRegistry`,
-      validationWindow: validationTime
+      validationWindow: countDown
     };
     console.log({ time, validTime, timeKeeper });
     messageKeeper = response.message;
