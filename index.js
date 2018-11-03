@@ -9,7 +9,7 @@ const bitcoinMessage = require("bitcoinjs-message");
 
 const app = express();
 let messageKeeper;
-let timeKeeper=0
+let timeKeeper = 0;
 let verified;
 let addressMatch;
 let validTime = 30000;//5 min in milliseconds
@@ -106,39 +106,63 @@ app.post("/block", (req, res) => {
     res.send("request a validation with your address to /requestValidation url endpoint and then sign the message response given, read the README");
   }
 });
+
+
+timeDifference = (time) => {
+  return timeKeeper > 0 ? time - timeKeeper : 0;
+};
+correctTime = (time) => {
+  return validTime - timeDifference(time);
+};
+requestedTime = (same, time) => {
+  return same && timeKeeper > 0 ? timeKeeper : time;
+};
+initiateAdress = () => {
+  addressMatch = "";
+};
+initializeVals = () => {
+  addressMatch = "";
+  timeKeeper = 0;
+};
 app.post("/requestValidation", (req, res) => {
   console.log(req.body);
   let { address } = req.body;
   if (address) {
-    let time = new Date().getTime();
+    let currentTime = new Date().getTime();
     let isSameAddress = address === addressMatch;
+
     let countDown = validTime;
-    if (!isSameAddress) {
-      addressMatch = address;
-      timeKeeper = time;
+    let requestTime = currentTime;
+
+    if(!isSameAddress){
+    addressMatch = address;
+    timeKeeper = currentTime;
     }
-    let counter=countDown-(time-timeKeeper)
-    if (isSameAddress && (counter > 0)) {
-      countDown =  counter
+    requestTime = requestedTime(isSameAddress, currentTime);
+    countDown = correctTime(currentTime);
+
+    if (countDown < 0) {
+      initializeVals();
+
+      res.send({"message": "time out, new message after you request again"})
     }
-    if(counter <0){
-      countDown = time
-    }
+
     let response = {
       address,
-      requestTimeStamp: isSameAddress ? timeKeeper : time,
-      message: `${address}:${isSameAddress ? timeKeeper : time}:starRegistry`,
+      requestTimeStamp: requestTime,
+      message: `${address}:${requestTime}:starRegistry`,
       validationWindow: countDown
     };
-    console.log({ time, validTime, timeKeeper });
     messageKeeper = response.message;
 
     console.log(bitcoinMessage.sign(messageKeeper, Buffer.from("3f87320d282b4fac7450fe7d35d8e8bc2839c4e48b7ed2d5352490fa4819d61a", "hex"), false).toString("base64"));
     res.send(response);
-  } else {
+  }
+  else {
     res.send("please provide a body message");
   }
-});
+})
+;
 
 app.post("/message-signature/validate", (req, res) => {
   console.log(req.body);

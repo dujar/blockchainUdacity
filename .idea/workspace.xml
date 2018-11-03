@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b64e570c-8735-4930-9fdf-0f898fc6c941" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaindata/CURRENT" beforeDir="false" afterPath="$PROJECT_DIR$/chaindata/CURRENT" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaindata/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/chaindata/LOG" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chaindata/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/chaindata/LOG.old" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -21,10 +24,11 @@
           <entry key="project.closed" value="9" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.1" value="4" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="9" />
+          <entry key="project.opened" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -47,7 +51,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="52" />
-          <entry key="js" value="4807" />
+          <entry key="js" value="6291" />
           <entry key="json" value="4" />
           <entry key="md" value="764" />
         </counts>
@@ -55,7 +59,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="4" />
-          <entry key="JavaScript" value="4807" />
+          <entry key="JavaScript" value="6291" />
           <entry key="Markdown" value="764" />
           <entry key="PLAIN_TEXT" value="52" />
         </counts>
@@ -69,8 +73,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="121" selection-start-line="121" selection-end-line="121" />
+            <state relative-caret-position="443">
+              <caret line="146" column="73" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -106,6 +110,8 @@
       <find>encode</find>
       <find>console.log</find>
       <find>block/</find>
+      <find>requestTIME</find>
+      <find>requestTime</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -201,14 +207,16 @@
       <workItem from="1540810577461" duration="180000" />
       <workItem from="1540820674786" duration="869000" />
       <workItem from="1541117584355" duration="318000" />
+      <workItem from="1541211964334" duration="7764000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24546000" />
+    <option name="totallyTimeSpent" value="32310000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -224,7 +232,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.16707617" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2837838" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -290,8 +298,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="121" selection-start-line="121" selection-end-line="121" />
+        <state relative-caret-position="443">
+          <caret line="146" column="73" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
         </state>
       </provider>
     </entry>
